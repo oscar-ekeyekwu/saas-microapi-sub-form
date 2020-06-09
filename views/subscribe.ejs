@@ -1,0 +1,326 @@
+<!-- views/contact.ejs -->
+<div class="container mb-3">
+  <!-- form header -->
+  <div class="header text-center p-2 m-3">
+    <% if (Object.keys(errors).length === 0) { %>
+    <h2>Subscribe</h2>
+    <% } else { %>
+    <h2 class="errors-heading">Oops, some details are not valid</h2>
+
+    <% } %>
+  </div>
+
+  <div class="container-fluid">
+    <form method="post" action="/subscribe" novalidate class="w-100 p-4">
+      <div class="row row-cols-2 w-100">
+        <div class="col">
+          <div class="card card-body">
+            <h4 class="card-title">Shipping/Billing Information</h4>
+            <div
+              class="form-group <%= errors.companyName ? 'form-group-invalid' : '' %>"
+            >
+              <label for="companyName">Company Name</label>
+              <input
+                type="text"
+                class="input form-control form-control-sm"
+                id="companyName"
+                name="companyName"
+                rows="4"
+                autofocus
+                value="<%= data.companyName %>"
+              />
+              <% if (errors.companyName) { %>
+              <div class="error"><%= errors.companyName.msg %></div>
+              <% } %>
+            </div>
+            <div class="row">
+              <div
+                class="col-md-6 form-group <%= errors.planType ? 'form-group-invalid' : '' %>"
+              >
+                <label for="planType">Plan</label>
+                <select
+                  onchange="refreshSummaryType()"
+                  class="form-control form-control-sm"
+                  name="planType"
+                  id="planType"
+                >
+                  <option value="basic">Basic - $30</option>
+                  <option value="standard">Standard - $50</option>
+                  <option value="premium">Premium - $100</option>
+                </select>
+                <% if (errors.planType) { %>
+                <div class="error"><%= errors.planType.msg %></div>
+                <% } %>
+              </div>
+
+              <div
+                class="col-md-6 form-group <%= errors.planType ? 'form-group-invalid' : '' %>"
+              >
+                <label for="planPeriod">Period</label>
+                <select
+                  onchange="refreshSummaryType()"
+                  class="form-control form-control-sm"
+                  name="planPeriod"
+                  id="planPeriod"
+                >
+                  <option value="month">Month</option>
+                  <option value="year">Year</option>
+                </select>
+                <% if (errors.planPeriod) { %>
+                <div class="error"><%= errors.planPeriod.msg %></div>
+                <% } %>
+              </div>
+            </div>
+
+            <div
+              class="form-group <%= errors.email ? 'form-group-invalid' : '' %>"
+            >
+              <label for="email">Email</label>
+              <input
+                class="input form-control form-control-sm"
+                id="email"
+                name="email"
+                type="email"
+                value="<%= data.email %>"
+              />
+              <% if (errors.email) { %>
+              <div class="error"><%= errors.email.msg %></div>
+              <% } %>
+            </div>
+
+            <div
+              class="form-group <%= errors.country ? 'form-group-invalid' : '' %>"
+            >
+              <label for="country">Country</label>
+              <input
+                type="text"
+                class="input form-control form-control-sm"
+                id="country"
+                name="country"
+                rows="4"
+                autofocus
+                value="<%= data.country %>"
+              />
+              <% if (errors.country) { %>
+              <div class="error"><%= errors.country.msg %></div>
+              <% } %>
+            </div>
+
+            <div
+              class="form-group <%= errors.address ? 'form-group-invalid' : '' %>"
+            >
+              <label for="address">Address</label>
+              <input
+                type="text"
+                class="input form-control form-control-sm"
+                id="address"
+                name="address"
+                rows="4"
+                autofocus
+                value="<%= data.address %>"
+              />
+              <% if (errors.address) { %>
+              <div class="error"><%= errors.address.msg %></div>
+              <% } %>
+            </div>
+
+            <div class="row">
+              <div
+                class="col-md-6 form-group <%= errors.city ? 'form-group-invalid' : '' %>"
+              >
+                <label for="city">City</label>
+                <input
+                  type="text"
+                  class="input form-control form-control-sm"
+                  id="city"
+                  name="city"
+                  rows="4"
+                  autofocus
+                  value="<%= data.city %>"
+                />
+                <% if (errors.city) { %>
+                <div class="error"><%= errors.city.msg %></div>
+                <% } %>
+              </div>
+
+              <div
+                class="col-md-6 form-group <%= errors.state ? 'form-group-invalid' : '' %>"
+              >
+                <label for="state">State</label>
+                <input
+                  type="text"
+                  class="input form-control form-control-sm"
+                  id="state"
+                  name="state"
+                  rows="4"
+                  autofocus
+                  value="<%= data.state %>"
+                />
+                <% if (errors.state) { %>
+                <div class="error"><%= errors.state.msg %></div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card card-body mb-3">
+            <!-- Payment field -->
+            <h4>Payment Details</h4>
+
+            <div
+              class="form-group <%= errors.credCardNum ? 'form-group-invalid' : '' %>"
+            >
+              <label for="credCardNum">Credit Card Number *</label>
+              <input
+                type="text"
+                class="input form-control form-control-sm"
+                id="credCardNum"
+                name="credCardNum"
+                rows="4"
+                autofocus
+                value="<%= data.credCardNum %>"
+              />
+              <% if (errors.credCardNum) { %>
+              <div class="error"><%= errors.credCardNum.msg %></div>
+              <% } %>
+            </div>
+
+            <div class="row">
+              <div
+                class="col-md-6 form-group <%= errors.expirationDate ? 'form-group-invalid' : '' %>"
+              >
+                <label for="expirationDate">Expiration Date *</label>
+                <input
+                  type="text"
+                  class="input form-control form-control-sm"
+                  id="expirationDate"
+                  name="expirationDate"
+                  rows="4"
+                  autofocus
+                  value="<%= data.expirationDate %>"
+                />
+                <% if (errors.expirationDate) { %>
+                <div class="error"><%= errors.expirationDate.msg %></div>
+                <% } %>
+              </div>
+              <div
+                class="col-md-6 form-group <%= errors.cvv ? 'form-group-invalid' : '' %>"
+              >
+                <label for="cvv">CVV Code *</label>
+                <input
+                  type="text"
+                  class="input form-control form-control-sm"
+                  id="cvv"
+                  name="cvv"
+                  rows="4"
+                  autofocus
+                  value="<%= data.cvv %>"
+                />
+                <% if (errors.cvv) { %>
+                <div class="error"><%= errors.cvv.msg %></div>
+                <% } %>
+              </div>
+            </div>
+
+            <div
+              class="form-group <%= errors.nameOnCard ? 'form-group-invalid' : '' %>"
+            >
+              <label for="nameOnCard">Name on Credit Card</label>
+              <input
+                type="text"
+                class="input form-control form-control-sm"
+                id="nameOnCard"
+                name="nameOnCard"
+                rows="4"
+                autofocus
+                value="<%= data.nameOnCard %>"
+              />
+              <% if (errors.nameOnCard) { %>
+              <div class="error"><%= errors.nameOnCard.msg %></div>
+              <% } %>
+            </div>
+          </div>
+
+          <div class="card card-body mt-2 p-3">
+            <!-- order summary field -->
+            <h4>Order Summary</h4>
+            <!-- plugin accepted order summary -->
+            <p class="lead" id="productName">Product One (includes bonuses)</p>
+
+            <hr class="bg-dark font-weight-bold" />
+
+            <p>
+              Subscription Fee:
+              <span id="price" class="float-right"></span>
+            </p>
+            <p>Vat (7.5%): <span id="vat" class="float-right"></span></p>
+            <p class="font-weight-bold">
+              Order Total: <span id="total" class="float-right"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group text-center mt-3 p-2 col-md-6">
+        <div class="row justify-content-center">
+          <button class="btn btn-success btn-block" type="submit">
+            Subscribe
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function refreshSummaryType() {
+    //select dom inputs for plan
+    const planType = document.querySelector('#planType').value.toLowerCase(),
+      planPeriod = document.querySelector('#planPeriod').value.toLowerCase();
+
+    switch (planType) {
+      case 'basic':
+        if (planPeriod === 'month') {
+          summarizeOrder((price = 30.0), 1);
+        } else {
+          summarizeOrder((price = 30.0), 12);
+        }
+        break;
+
+      case 'standard':
+        if (planPeriod === 'month') {
+          summarizeOrder((price = 50.0), 1);
+        } else {
+          summarizeOrder((price = 50.0), 12);
+        }
+        break;
+
+      case 'premium':
+        if (planPeriod === 'month') {
+          summarizeOrder((price = 100.0), 1);
+        } else {
+          summarizeOrder((price = 100.0), 12);
+        }
+        break;
+    }
+  }
+
+  function summarizeOrder(price, periodInMonths) {
+    // select dom elements for order summary
+    let priceDOM = document.querySelector('#price'),
+      vatDOM = document.querySelector('#vat'),
+      totalDOM = document.querySelector('#total');
+
+    const vat = 0.075;
+    let vatPrice = vat * price;
+    let totalPrice = (price + vatPrice) * periodInMonths;
+    totalPrice.toFixed(2);
+    priceDOM.innerHTML = `$${price}`;
+    vatDOM.innerHTML = `$${vatPrice}`;
+    totalDOM.innerHTML = `$${totalPrice}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', refreshSummaryType);
+</script>
