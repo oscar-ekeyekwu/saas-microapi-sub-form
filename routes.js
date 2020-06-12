@@ -17,9 +17,9 @@ router.get('/subscribe', (req, res) => {
 router.post(
   '/subscribe',
   [
-    check('companyName')
+    check('username')
       .isLength({ min: 1 })
-      .withMessage('Company Name is required')
+      .withMessage('User Name is required')
       .trim(),
     check('email')
       .isEmail()
@@ -27,43 +27,6 @@ router.post(
       .bail()
       .trim()
       .normalizeEmail(),
-
-    check('address')
-      .isLength({ min: 1 })
-      .withMessage('Address is required')
-      .trim(),
-
-    check('city').isLength({ min: 1 }).withMessage('City is required').trim(),
-
-    check('state').isLength({ min: 1 }).withMessage('State is required').trim(),
-
-    check('country')
-      .isLength({ min: 1 })
-      .withMessage('Country is required')
-      .trim(),
-
-    check('credCardNum')
-      .isLength({ min: 1 })
-      .isNumeric()
-      .withMessage('Credit Card Number is not Valid')
-      .trim(),
-
-    check('expirationDate')
-      .isLength({ min: 1 })
-      .withMessage('Card Expiration Date is required')
-      .trim(),
-
-    check('cvv')
-      .isLength({ min: 1 })
-      .isNumeric()
-      .withMessage('CVV is not Valid')
-      .trim(),
-
-    check('nameOnCard')
-      .isLength({ min: 1 })
-      .isNumeric()
-      .withMessage("Card Holder's Name is required")
-      .trim(),
   ],
   (req, res) => {
     const errors = validationResult(req);

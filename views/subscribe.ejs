@@ -1,4 +1,4 @@
-<!-- views/contact.ejs -->
+<!-- views/subscribe.ejs -->
 <div class="container mb-3">
   <!-- form header -->
   <div class="header text-center p-2 m-3">
@@ -11,28 +11,49 @@
   </div>
 
   <div class="container-fluid">
+    <!-- subscription form -->
     <form method="post" action="/subscribe" novalidate class="w-100 p-4">
-      <div class="row row-cols-2 w-100">
-        <div class="col">
-          <div class="card card-body">
-            <h4 class="card-title">Shipping/Billing Information</h4>
+      <div class="row w-100 p-2 m-0 d-block">
+        <div class="row w-100 p-0 m-0 row-cols-2">
+          <!-- user information fields -->
+          <div class="col card card-body col-md-6 ml-auto">
+            <h4 class="card-title">User Information</h4>
+            <!-- username field -->
             <div
-              class="form-group <%= errors.companyName ? 'form-group-invalid' : '' %>"
+              class="form-group <%= errors.username ? 'form-group-invalid' : '' %>"
             >
-              <label for="companyName">Company Name</label>
+              <label for="username">User Name</label>
               <input
                 type="text"
                 class="input form-control form-control-sm"
-                id="companyName"
-                name="companyName"
+                id="username"
+                name="username"
                 rows="4"
                 autofocus
-                value="<%= data.companyName %>"
+                value="<%= data.username %>"
               />
-              <% if (errors.companyName) { %>
-              <div class="error"><%= errors.companyName.msg %></div>
+              <% if (errors.username) { %>
+              <div class="error"><%= errors.username.msg %></div>
               <% } %>
             </div>
+            <!-- email field -->
+            <div
+              class="form-group <%= errors.email ? 'form-group-invalid' : '' %>"
+            >
+              <label for="email">User Email</label>
+              <input
+                class="input form-control form-control-sm"
+                id="email"
+                name="email"
+                type="email"
+                value="<%= data.email %>"
+              />
+              <% if (errors.email) { %>
+              <div class="error"><%= errors.email.msg %></div>
+              <% } %>
+            </div>
+
+            <!-- subscription plan & period fields -->
             <div class="row">
               <div
                 class="col-md-6 form-group <%= errors.planType ? 'form-group-invalid' : '' %>"
@@ -71,101 +92,10 @@
                 <% } %>
               </div>
             </div>
-
-            <div
-              class="form-group <%= errors.email ? 'form-group-invalid' : '' %>"
-            >
-              <label for="email">Email</label>
-              <input
-                class="input form-control form-control-sm"
-                id="email"
-                name="email"
-                type="email"
-                value="<%= data.email %>"
-              />
-              <% if (errors.email) { %>
-              <div class="error"><%= errors.email.msg %></div>
-              <% } %>
-            </div>
-
-            <div
-              class="form-group <%= errors.country ? 'form-group-invalid' : '' %>"
-            >
-              <label for="country">Country</label>
-              <input
-                type="text"
-                class="input form-control form-control-sm"
-                id="country"
-                name="country"
-                rows="4"
-                autofocus
-                value="<%= data.country %>"
-              />
-              <% if (errors.country) { %>
-              <div class="error"><%= errors.country.msg %></div>
-              <% } %>
-            </div>
-
-            <div
-              class="form-group <%= errors.address ? 'form-group-invalid' : '' %>"
-            >
-              <label for="address">Address</label>
-              <input
-                type="text"
-                class="input form-control form-control-sm"
-                id="address"
-                name="address"
-                rows="4"
-                autofocus
-                value="<%= data.address %>"
-              />
-              <% if (errors.address) { %>
-              <div class="error"><%= errors.address.msg %></div>
-              <% } %>
-            </div>
-
-            <div class="row">
-              <div
-                class="col-md-6 form-group <%= errors.city ? 'form-group-invalid' : '' %>"
-              >
-                <label for="city">City</label>
-                <input
-                  type="text"
-                  class="input form-control form-control-sm"
-                  id="city"
-                  name="city"
-                  rows="4"
-                  autofocus
-                  value="<%= data.city %>"
-                />
-                <% if (errors.city) { %>
-                <div class="error"><%= errors.city.msg %></div>
-                <% } %>
-              </div>
-
-              <div
-                class="col-md-6 form-group <%= errors.state ? 'form-group-invalid' : '' %>"
-              >
-                <label for="state">State</label>
-                <input
-                  type="text"
-                  class="input form-control form-control-sm"
-                  id="state"
-                  name="state"
-                  rows="4"
-                  autofocus
-                  value="<%= data.state %>"
-                />
-                <% if (errors.state) { %>
-                <div class="error"><%= errors.state.msg %></div>
-                <% } %>
-              </div>
-            </div>
           </div>
-        </div>
 
-        <div class="col">
-          <div class="card card-body mb-3">
+          <!-- payment info -->
+          <div class="col card card-body col-md-6">
             <!-- Payment field -->
             <h4>Payment Details</h4>
 
@@ -242,33 +172,33 @@
               <% } %>
             </div>
           </div>
-
-          <div class="card card-body mt-2 p-3">
-            <!-- order summary field -->
-            <h4>Order Summary</h4>
-            <!-- plugin accepted order summary -->
-            <p class="lead" id="productName">Product One (includes bonuses)</p>
-
-            <hr class="bg-dark font-weight-bold" />
-
-            <p>
-              Subscription Fee:
-              <span id="price" class="float-right"></span>
-            </p>
-            <p>Vat (7.5%): <span id="vat" class="float-right"></span></p>
-            <p class="font-weight-bold">
-              Order Total: <span id="total" class="float-right"></span>
-            </p>
-          </div>
         </div>
-      </div>
 
-      <div class="form-group text-center mt-3 p-2 col-md-6">
-        <div class="row justify-content-center">
+        <!-- order summary -->
+        <div class="col card card-body mt-2 p-3">
+          <!-- order summary field -->
+          <h4>Order Summary</h4>
+          <!-- plugin accepted order summary -->
+          <p class="lead" id="productName">Product One (includes bonuses)</p>
+
+          <hr class="bg-dark font-weight-bold" />
+
+          <p>
+            Subscription Fee:
+            <span id="price" class="float-right"></span>
+          </p>
+          <p>Vat (7.5%): <span id="vat" class="float-right"></span></p>
+          <p class="font-weight-bold">
+            Order Total: <span id="total" class="float-right"></span>
+          </p>
+        </div>
+
+        <!-- submit button -->
+        <div class="col text-center mt-3 p-2 col-md-6">
           <button class="btn btn-success btn-block" type="submit">
             Subscribe
           </button>
-        </div>
+        </div> 
       </div>
     </form>
   </div>
